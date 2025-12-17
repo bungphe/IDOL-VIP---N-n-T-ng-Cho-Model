@@ -23,15 +23,15 @@ import {
 // --- Reusable Components ---
 
 const Card = ({ title, icon: Icon, children, className = "", headerColor = "text-yellow-400" }: { title: string, icon: any, children?: React.ReactNode, className?: string, headerColor?: string }) => (
-  <div className={`relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-6 overflow-hidden hover:border-white/20 transition-all duration-300 shadow-xl ${className}`}>
+  <div className={`relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-6 overflow-hidden hover:border-white/20 transition-all duration-300 shadow-xl h-full flex flex-col ${className}`}>
     <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-gradient-to-br from-white/10 to-transparent rounded-full blur-2xl pointer-events-none"></div>
-    <div className="flex items-center gap-3 mb-4 border-b border-white/10 pb-3">
+    <div className="flex items-center gap-3 mb-4 border-b border-white/10 pb-3 flex-shrink-0">
       <div className={`p-2 rounded-lg bg-white/10 ${headerColor}`}>
         <Icon size={24} strokeWidth={2.5} />
       </div>
       <h3 className={`text-xl font-bold uppercase leading-tight ${headerColor}`}>{title}</h3>
     </div>
-    <div className="space-y-3 text-gray-200">
+    <div className="space-y-3 text-gray-200 flex-grow">
       {children}
     </div>
   </div>
@@ -56,16 +56,19 @@ const HighlightBox = ({ children }: { children?: React.ReactNode }) => (
 
 const App: React.FC = () => {
   return (
-    <div className="min-h-screen bg-[#0a0a1f] text-white selection:bg-amber-500 selection:text-black pb-12">
+    <div className="min-h-screen text-white selection:bg-amber-500 selection:text-black pb-12">
       
       {/* Background Ambience */}
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-900/30 rounded-full blur-[100px]"></div>
-        <div className="absolute bottom-[10%] right-[-5%] w-[400px] h-[400px] bg-blue-900/20 rounded-full blur-[100px]"></div>
-        <div className="absolute top-[40%] left-[30%] w-[300px] h-[300px] bg-indigo-900/20 rounded-full blur-[80px]"></div>
+        {/* Top Center Glow (behind Title) */}
+        <div className="absolute top-[-10%] left-[50%] transform -translate-x-1/2 w-[800px] h-[600px] bg-indigo-600/20 rounded-full blur-[120px]"></div>
+        
+        {/* Side Glows */}
+        <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] bg-purple-900/20 rounded-full blur-[100px]"></div>
+        <div className="absolute bottom-[10%] right-[-5%] w-[400px] h-[400px] bg-blue-900/10 rounded-full blur-[100px]"></div>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 md:pt-16">
+      <div className="relative z-10 w-full max-w-[98%] mx-auto px-4 sm:px-6 lg:px-8 pt-8 md:pt-16">
         
         {/* Header Section */}
         <header className="text-center mb-16 space-y-6">
@@ -89,13 +92,13 @@ const App: React.FC = () => {
         </header>
 
         {/* Masonry-like Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           
           {/* Card 1: Thu Nhập */}
           <Card 
             title="1. Thu nhập siêu khủng & Cơ chế độc quyền" 
             icon={DollarSign}
-            className="border-yellow-500/30 bg-gradient-to-b from-yellow-900/10 to-transparent lg:row-span-2"
+            className="border-yellow-500/30 bg-gradient-to-b from-yellow-900/10 to-transparent lg:col-span-1 lg:row-span-2 lg:order-1"
           >
             <div className="text-sm space-y-2 mb-4">
               <p className="text-gray-300 flex justify-between">
@@ -140,7 +143,12 @@ const App: React.FC = () => {
           </Card>
 
           {/* Card 2: Cách kiếm tiền */}
-          <Card title="2. Cách kiếm tiền đa dạng" icon={Gift} headerColor="text-orange-400">
+          <Card 
+            title="2. Cách kiếm tiền đa dạng" 
+            icon={Gift} 
+            headerColor="text-orange-400"
+            className="lg:col-span-1 lg:row-span-2 lg:order-2"
+          >
             <div className="grid gap-3">
               <FeatureItem icon={DollarSign} text="Tip công khai & private" highlight />
               <FeatureItem icon={Zap} text="Đồ chơi rung (Interactive toys)" highlight />
@@ -151,7 +159,7 @@ const App: React.FC = () => {
               <FeatureItem icon={MessageCircle} text="Tin nhắn trả phí" highlight />
             </div>
             
-            <div className="mt-4 pt-4 border-t border-white/10 text-center">
+            <div className="mt-4 pt-4 border-t border-white/10 text-center mt-auto">
               <p className="font-bold text-yellow-400 flex items-center justify-center gap-2">
                 <Zap size={16} /> Kiếm tiền ngay cả khi OFFLINE!
               </p>
@@ -159,7 +167,12 @@ const App: React.FC = () => {
           </Card>
 
           {/* Card 3: Thi đấu */}
-          <Card title="3. Thi đấu & Bonus hấp dẫn" icon={Trophy} headerColor="text-green-400">
+          <Card 
+            title="3. Thi đấu & Bonus hấp dẫn" 
+            icon={Trophy} 
+            headerColor="text-green-400"
+            className="lg:order-3"
+          >
             <div className="space-y-4">
               <div className="bg-green-900/20 p-3 rounded-lg border border-green-500/20">
                 <h4 className="font-bold text-green-400 mb-1">Đua top hàng giờ & hàng tháng</h4>
@@ -174,7 +187,12 @@ const App: React.FC = () => {
           </Card>
 
           {/* Card 4: Rút tiền */}
-          <Card title="4. Rút tiền Nhanh - An toàn" icon={CreditCard} headerColor="text-cyan-400">
+          <Card 
+            title="4. Rút tiền Nhanh - An toàn" 
+            icon={CreditCard} 
+            headerColor="text-cyan-400"
+            className="lg:order-5"
+          >
             <div className="space-y-3">
               <FeatureItem icon={CheckCircle} text="Thanh toán nhanh chóng" />
               <div className="flex items-start gap-3">
@@ -195,7 +213,12 @@ const App: React.FC = () => {
           </Card>
 
            {/* Card 5: Bảo vệ */}
-           <Card title="5. Bảo vệ & Tiện ích tuyệt đối" icon={ShieldCheck} headerColor="text-purple-400">
+           <Card 
+            title="5. Bảo vệ & Tiện ích tuyệt đối" 
+            icon={ShieldCheck} 
+            headerColor="text-purple-400"
+            className="lg:order-4"
+          >
             <div className="space-y-3">
               <FeatureItem icon={ShieldCheck} text={<span><span className="text-purple-400 font-bold">DMCA:</span> Xóa nội dung bị leak nhanh chóng</span>} />
               <FeatureItem icon={Smartphone} text="Stream bằng điện thoại – Không cần máy xịn" highlight />
@@ -207,7 +230,7 @@ const App: React.FC = () => {
           <Card 
             title="Tại sao chọn IDOL VIP?" 
             icon={Star} 
-            className="border-blue-500/50 bg-gradient-to-br from-blue-900/20 to-indigo-900/20 shadow-[0_0_20px_rgba(59,130,246,0.3)] md:col-span-2 lg:col-span-1"
+            className="border-blue-500/50 bg-gradient-to-br from-blue-900/20 to-indigo-900/20 shadow-[0_0_20px_rgba(59,130,246,0.3)] lg:col-span-1 lg:order-6"
             headerColor="text-white"
           >
             <ul className="space-y-3">
@@ -233,7 +256,7 @@ const App: React.FC = () => {
               </li>
             </ul>
             
-            <div className="mt-6 pt-4 border-t border-white/20 text-center">
+            <div className="mt-6 pt-4 border-t border-white/20 text-center mt-auto">
               <p className="text-indigo-200 text-sm mb-2">Bạn chỉ cần đẹp, chịu khó tương tác</p>
               <p className="text-yellow-400 font-bold text-lg animate-pulse">→ Thu nhập sẽ tăng rất nhanh!</p>
             </div>
