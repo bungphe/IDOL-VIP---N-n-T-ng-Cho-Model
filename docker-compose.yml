@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  idol-vip-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    restart: always
+    container_name: idol_vip_landing_page
+    networks:
+      - idol-vip-network
+
+networks:
+  idol-vip-network:
+    driver: bridge
